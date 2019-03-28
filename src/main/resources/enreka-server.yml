@@ -1,0 +1,100 @@
+eureka:
+  server:
+    # 来自EurekaServerConfigBean，spring-cloud-netflix-enreka-server-2.1.0.RELEASE
+    # MINUTES = 60 * 1000
+    aWSAccessId: null #AWS Access Id 亚马逊云使用 绑定Elastic IP 
+    aWSSecretKey: null #AWS Secret Key 亚马逊云使用 绑定Elastic IP 
+    eIPBindRebindRetries: 3 #绑定Elastic IP 重试次数
+    eIPBindingRetryIntervalMs: 5 * MINUTES # eIP绑定重试间隔 eIP已绑定时 也作刷新间隔
+    eIPBindingRetryIntervalMsWhenUnbound: 1 * MINUTES # eIP未被绑定时绑定重试间隔
+    route53BindRebindRetries: 3 # 绑定Route53域名重试次数
+    route53BindingRetryIntervalMs: 5 * MINUTES # 绑定Route53域名重试间隔
+    route53DomainTTL: 30  # Route53域名TTL
+    bindingStrategy: AwsBindingStrategy.EIP # 绑定策略EIP, ROUTE53, ENI
+    useAwsAsgApi: true # 是否使用 AWS API查询ASG statuses
+    aSGQueryTimeoutMs: 300 # 向AWS请求ASG信息超时时间
+    aSGUpdateIntervalMs: 5 * MINUTES # ASG信息更新间隔
+    aSGCacheExpiryTimeoutMs: 10 * MINUTES # ASG信息过期时间
+    primeAwsReplicaConnections: true # 检查是否应启动与副本的连接,在AWS，防火墙有时需要为新节点建立网络连接
+    listAutoScalingGroupsRoleName: ListAutoScalingGroups # 角色名称，用于描述从第三方AWS账户得到的自动缩放组
+    
+    enableSelfPreservation: true # 是否开启自我保护，开启后会检查renewals参数是否
+                                 # 低于renewalPercentThreshold阈值，低于时启动自我保护模式，
+                                 # 此时会关闭过期删除(注册信息)以避免因client与server之间网络不畅通导致的误删
+    renewalPercentThreshold: 0.85 # 一个周期(renewalThresholdUpdateIntervalMs)实际收到心跳包与期望收到心跳包最小比值，
+                                  # 低于该阈值开启自我保护
+    renewalThresholdUpdateIntervalMs: 15 * MINUTES # 一个间隔周期，用于心跳检测
+    expectedClientRenewalIntervalSeconds: 30 # 期望客户端发送心跳间隔时间，应与客户端发送间隔时间相同，否则自我保护机制失效
+    
+    peerEurekaNodesUpdateIntervalMs: 10 * MINUTES # 集群里eureka节点的变化信息更新的时间间隔
+    numberOfReplicationRetries: 5 # 向peer节点发送同步请求重试次数
+    peerEurekaStatusRefreshTimeIntervalMs: 30 * 1000 # 获取peer节点状态更新信息 时间间隔
+    waitTimeInMsWhenSyncEmpty: 5 * MINUTES # Eureka服务器启动时无法从对等节点获取实例时的等待时间
+    peerNodeConnectTimeoutMs: 200 # 向peer节点发送同步请求超时时间
+    peerNodeReadTimeoutMs: 200 # 从peer节点同步获取信息超时时间
+    peerNodeTotalConnections: 1000 # peer节点复制时HTTP连接最大数
+    peerNodeTotalConnectionsPerHost: 500 # 单个peer节点复制时HTTP连接最大数
+    peerNodeConnectionIdleTimeoutSeconds: 30 # HTTP连接允许的最大闲置时间
+    
+    disableDelta: false # 增量信息是否服务与客户端
+    retentionTimeInMSInDeltaQueue: 3 * MINUTES # 缓存增量信息时间，保证客户端在丢失信息时能重新获得这些信息
+    deltaRetentionTimerIntervalInMs: 30 * 1000 # 清理任务休眠间隔，用于清理过期的增量信息(delta information)
+   
+    evictionIntervalTimerInMs: 60 * 1000 # task唤醒和执行时间间隔，用于过期实例
+    
+    responseCacheAutoExpirationInSeconds: 180 # registry payload被change events失效后在cache中保存时间
+    responseCacheUpdateIntervalMs: 30 * 1000 # 缓存的客户端payload需要更新的时间间隔
+    useReadOnlyResponseCache: true # 注册信息响应缓存，使用了二级缓存结构，带有过期策略的读写缓存以及没有过期的只读缓存(com.netflix.eureka.registry.ResponseCache)
+    
+    maxIdleThreadInMinutesAgeForStatusReplication: 10 # 状态复制线程最大闲置时间(Minutes)
+    minThreadsForStatusReplication: 1 # 状态复制线程最小线程数
+    maxThreadsForStatusReplication: 1 # 状态复制线程最大线程数
+    maxElementsInStatusReplicationPool: 1000 # 状态复制线程池阻塞队列存放数量
+    
+    syncWhenTimestampDiffers: true # 当时间戳出现差异时是否同步实例
+    
+    registrySyncRetries: 0 # 在启动时从peer节点获取注册信息重试次数
+    registrySyncRetryWaitMs: 30 * 1000 # 重试同步间隔时间
+    
+    maxElementsInPeerReplicationPool: 10000 # 复制事件线程池阻塞队列限制
+    maxIdleThreadAgeInMinutesForPeerReplication: 15 # replication线程最大闲置时间
+    minThreadsForPeerReplication: 5 # replication线程池最小线程数
+    maxThreadsForPeerReplication: 20 # replication线程池最大线程数
+    maxTimeForReplication: 30000 # 丢弃replication events前尝试复制的最大时间
+    
+    disableDeltaForRemoteRegions: false # 增量信息是否服务与远程客户端
+    remoteRegionConnectTimeoutMs: 1000 # 连接远程peer节点超时时间
+    remoteRegionReadTimeoutMs: 1000 # 从远程peer节点读取信息超时时间
+    remoteRegionTotalConnections: 1000 # 远程peer节点复制时HTTP连接最大数
+    remoteRegionTotalConnectionsPerHost: 500 # 单个远程peer节点复制时HTTP连接最大数
+    remoteRegionConnectionIdleTimeoutSeconds: 30 # HTTP连接允许的最大闲置时间
+    gZipContentFromRemoteRegion: true # 远程连接是否开启gZip压缩
+    remoteRegionUrlsWithName: empty Map # HashMap  region name-remote region discovery url
+    remoteRegionUrls: null # url，该选项已被remoteRegionUrlsWithName取代
+    remoteRegionAppWhitelist: null # Map<String, Set<String>> regionName-A set of application names 应用白名单
+    remoteRegionRegistryFetchInterval: 30 # 从远端拉取注册信息时间间隔
+    remoteRegionFetchThreadPoolSize: 20 # 远端拉取注册信息线程池大小
+    remoteRegionTrustStore: "" # 空字符串 远端抓取信息证书文件
+    remoteRegionTrustStorePassword: changeit # 远端抓取信息证书文件密码
+    disableTransparentFallbackToOtherRegion: false # 如果本地区域中没有该应用程序的实例，则将禁用回退到远程区域中的应用程序（如果有配置）的旧行为。true 禁用旧行为
+    
+    batchReplication: false # 是否开启对群集节点之间的复制进行批处理，以提高网络效率
+    rateLimiterEnabled: false # 是否开启速率限制器
+    rateLimiterThrottleStandardClients: false # 是否对标准客户端限速 
+    rateLimiterPrivilegedClients: Collections.emptySet() # 空set 除开标准enreka客户端之外的受信客户端
+    rateLimiterBurstSize: 10 # 令牌桶算法(token bucket algorithm)的属性，速率限制的burst size
+    rateLimiterRegistryFetchAverageRate: 500 # 令牌桶算法的属性,平均执行注册请求速率
+    rateLimiterFullFetchAverageRate: 100 # 令牌桶算法的属性,平均执行请求速率
+    logIdentityHeaders: true # enreka服务器是否追踪clientAuthHeaders
+    
+    enableReplicatedRequestCompression: false # 在请求中压缩复制数据
+    jsonCodecName: null # 指定json编/解码器类名，没有则使用默认解码器
+    xmlCodecName: null # 制定xml编/解码器类名，没有则使用默认解码器
+    
+    minAvailableInstancesForPeerReplication: -1 # 未知含义，在EurekaServerConfigBean有，在EurekaServerConfig无，
+                          # 在spring-cloud-enraka中只有EurekaServerConfigBean和一个测试类有设定该值，但并未使用
+                          # 从字面意义看，是peer复制最少可用实例
+    initialCapacityOfResponseCache: 1000 # responseCache初始缓存大小
+    
+    myUrl: null # 定义自身url,用于Eureka URLs不匹配IP地址或hostname时(如将enreka实例放在负载均衡器下)
+                # 需要使用完整地址，如http://eureka-node1.mydomain.com:8010/eureka/v2/

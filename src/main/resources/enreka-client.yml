@@ -1,0 +1,72 @@
+eureka:
+  client:
+    # 来自EurekaClientConfigBean，spring-cloud-netflix-enreka-client-2.1.0.RELEASE
+    # DEFAULT_PREFIX: /eureka
+    # DEFAULT_URL: "http://localhost:8761" + DEFAULT_PREFIX + "/"
+    # DEFAULT_ZONE: defaultZone
+    # MINUTES: 60
+    
+    enabled: true # 是否开启enreka client
+    registryFetchIntervalSeconds: 30 # 从enreka服务器抓取注册信息频率
+    instanceInfoReplicationIntervalSeconds: 30 # 复制实例变化信息到eureka服务器频率
+    initialInstanceInfoReplicationIntervalSeconds: 40 # 初始复制实例信息到eureka服务器时长
+    eurekaServiceUrlPollIntervalSeconds: 5 * MINUTES # 询问Eureka Server信息变化的时间间隔
+    
+    proxyPort: null # 获取eureka服务的代理端口
+    proxyHost: null # 获取eureka服务的代理主机
+    proxyUserName: null # 获取eureka服务的代理用户名
+    proxyPassword: null # 获取eureka服务的代理密码
+    
+    eurekaServerReadTimeoutSeconds: 8 # 建立读取enreka server超时时间
+    eurekaServerConnectTimeoutSeconds: 5 # 建立到enreka server连接超时
+    backupRegistryImpl: null # 实现了BackupRegistry接口的类名称，用于第一次从enreka服务器获取注册信息失败时降级操作
+    eurekaServerTotalConnections: 200 # 到所有enreka server的总连接数
+    eurekaServerTotalConnectionsPerHost: 50 # 到单个enreka host的总连接数
+    
+    useDnsForFetchingServiceUrls: false # eureka客户端是否应该使用DNS机制来获取eureka服务器的地址列表
+    eurekaServerURLContext: null # URL context:用于构建服务url，来连接enreka server
+                                 # 当enreka服务器ip列表来自于DNS需要使用此项
+    eurekaServerPort: null # eureka服务器的端口,当enreka服务器ip列表来自于DNS需要使用此项
+    eurekaServerDNSName: null # DNS名称，用来获取enreka服务器ip列表
+    
+    region: us-east-1 # AWS datacenters 区域
+    
+    eurekaConnectionIdleTimeoutSeconds: 30 # 与enreka服务器的http连接闲置超时时间
+    registryRefreshSingleVipAddress: null # 客户端只对一个单一的VIP(逻辑Eureka服务标识符)注册表的信息感兴趣
+    heartbeatExecutorThreadPoolSize: 2 # 心跳线程池初始大小
+    heartbeatExecutorExponentialBackOffBound: 10 # 心跳指数回退属性，是重试延迟的最大倍数值
+    
+    cacheRefreshExecutorThreadPoolSize: 2 # 缓存刷新线程池大小
+    cacheRefreshExecutorExponentialBackOffBound: 10 # 缓存刷新回退属性，是重试延迟的最大倍数值
+    
+    serviceUrl: # zone: 服务的url/urls(以,号分隔) url需要时全路径,如http://ec2-256-156-243-129.compute-1.amazonaws.com:7001/eureka/
+      DEFAULT_ZONE: DEFAULT_URL # client下端注释值
+      
+    gZipContent: true # 连接是否开启gZip压缩
+    
+    registerWithEureka: true # 是否注册该实例到enreka服务器
+    preferSameZoneEureka: true # 实例是否使用同一zone里的eureka服务器
+    
+    logDeltaDiff: false # 是否记录eureka服务器和客户端之间在注册表的信息方面的差异
+                        # enreka客户端每次从服务器仅取服务器增加的信息以减少网络开销；收到增量信息后，
+                        # enreka客户端会向服务器验证是否有差异(丢失)。如果这个过程失败则会尝试获取全部信息。
+                        # 当获取全部信息时，是否记录服务器信息与本地信息的差异
+    disableDelta: false # 见上，是否关闭增量更新
+    fetchRemoteRegionsRegistry: null # 逗号隔开的区域列表，用来获取服务注册信息
+    availabilityZones: new HashMap<>() # 逗号隔开的实例所在的地区下可用性的区域列表(AWS datacenter下使用)
+    filterOnlyUpInstances: true # 仅获取实例状态为UP的应用
+    fetchRegistry: true # 是否从enreka server获取注册信息
+    
+    dollarReplacement: _- # 在与enreka服务器通信(反)序列化替换$
+    escapeCharReplacement: __ # 同上，替换_符号
+    allowRedirects: false # 允许server重定向client的请求
+    
+    onDemandUpdateStatusChange: true # 本地状态更新是否触发频率受限的on-demand更新到enreka server
+    encoderName: null # 临时配置选项配置使用编码器，当最新的编码器稳定后移除
+    decoderName: null # 同上
+    clientDataAccept: EurekaAccept.full.name() # full, compact 客户端数据接收使用的EurekaAccept名称
+    
+    shouldUnregisterOnShutdown: true # 客户端关闭时向enreka server注销
+    
+    shouldEnforceRegistrationAtInit: false # 客户端初始化期间是否强制注册
+    order: 0 # CompositeDiscoveryClient用来排序可用客户端

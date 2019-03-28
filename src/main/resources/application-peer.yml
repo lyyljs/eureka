@@ -1,0 +1,16 @@
+server:
+  port: ${server.register.port1}
+  
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.register.port1}/eureka/
+      
+# eureka.client.register-with-eureka ：表示是否将自己注册到Eureka Server，默认为true。
+# eureka.client.fetch-registry ：表示是否从Eureka Server获取注册信息，默认为true。
+# eureka.client.serviceUrl.defaultZone ：设置与Eureka Server交互的地址，查询服务和注册服务都需要依赖这个地址。
+# eureka.server.enable-self-preservation ：设置为false代表关闭注册中心的保护机制，默认为true。

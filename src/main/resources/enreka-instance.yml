@@ -1,0 +1,43 @@
+eureka:
+  instance:
+    # 来自EurekaInstanceConfigBean，spring-cloud-netflix-enreka-client-2.1.0.RELEASE
+    # UNKNOWN: unknown
+    
+    # spring boot actuator
+    actuatorPrefix: /actuator # actuator endpoints默认前缀
+    statusPageUrlPath: actuatorPrefix + "/info" # 状态信息页面相对路径
+    statusPageUrl: null # 状态信息页面绝对路径
+    homePageUrlPath: / # 主页相对路径
+    homePageUrl: null # 主页绝对路径
+    healthCheckUrlPath: actuatorPrefix + "/health" # 健康检查相对路径
+    healthCheckUrl: null # 健康检查绝对路径
+    secureHealthCheckUrl: null # 安全端口健康检查绝对路径
+    
+    appname: unknown # 应用注册名 如未设定appname，则查询spring.application.name，如皆未设定，则为unknown
+    appGroupName: null # 应用组名称
+    instanceEnabledOnit: false # 实例注册到eureka服务器时，是否马上开始通讯
+    nonSecurePort: 80 # 非加密接受通讯端口
+    securePort: 443 # 加密接受通讯端口
+    nonSecurePortEnabled: true # 是否使用非加密接受通讯端口
+    securePortEnabled: false # 是否使用加密接受通讯端口
+    leaseRenewalIntervalInSeconds: 30 # enreka客户端发送心跳间隔
+    leaseExpirationDurationInSeconds: 90 # 心跳过期时间，enreka服务端在接收心跳后，如在此时间内未收到下一跳，则删除该实例
+    virtualHostName: unknown # 虚拟主机名 未设定该值则为spring.application.name，如皆未设定，则为unknown
+    instanceId: null # 实例id，实例注册到eureka服务端的唯一的实例ID,未设定则从metadataMap查询
+    secureVirtualHostName: unknown # 安全虚拟主机名 如未设定，则查询spring.application.name，如皆未设定，则为unknown
+    aSGName: null # AWS autoscaling group name
+    metadataMap: new HashMap # enreka元数据，元数据被发送到eureka服务器，其他实例可以使用
+    dataCenterInfo: MyOwn # DataCenterInfo.Name.MyOwn Netflix, Amazon, MyOwn 该实例被部署的数据中心
+    ipAddress: null # 实例的ip地址，无配置会使用默认发现的第一个非回环地址 相关类 org.springframework.cloud.commons.util.InetUtils
+    namespace: eureka # 用于查找属性的命名空间，Spring Cloud中会被忽略
+    hostname: null # 配置的主机名，无配置会从OS中获取。 InetUtils
+    preferIpAddress: false # IP优先于(取代)从OS中获取的主机名。 InetUtils
+    initialStatus: UP # InstanceStatus.UP/DOWN/STARTING/OUT_OF_SERVICE/UNKNOWN
+                      # 注册到enreka server时实例状态
+                      # UP:可以通讯   DOWN:下线，禁止通讯，health check失败时
+                      # STARTING: 正在进行初始化，禁止通讯  OUT_OF_SERVICE: 主动离线
+                      # UNKNOWN: 未知
+    
+    
+    
+    

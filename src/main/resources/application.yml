@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: spring-cloud-eureka
+  profiles:
+    active: peer
+# peer是单注册中心配置文件，peer1,2,3为集群1,2,3配置文件
+
+server:
+  register:
+    port1: 8000
+    port2: 8001
+    port3: 8002
